@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Here a loader is created which 
+             loads till response comes -->
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status" id="loading">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <button onclick="">Add new Product</button>
+    <table id="table">
+    </table>
+    <script>
+      let table = document.getElementById("table");
+      async function getProducts() {
+        try {
+          const response = await fetch(
+            "http://localhost:7070/product/getProducts"
+          );
+          const products = await response.json();
+          console.log(products);
+          if (response) {
+            hideloader();
+          }
+          showProducts(products)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      //showing the products
+      showProducts = (products) => {
+        table.innerHTML = `<th>id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>`
+      };
+
+      //hide the loader
+      function hideloader() {
+        document.getElementById("loading").style.display = "none";
+      }
+      getProducts();
+    </script>
+  </body>
+</html>
